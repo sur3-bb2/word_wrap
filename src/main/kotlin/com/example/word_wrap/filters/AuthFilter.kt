@@ -9,14 +9,14 @@ import javax.servlet.Filter
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
-//import javax.servlet.annotation.WebFilter
+import javax.servlet.annotation.WebFilter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 
 @Component
-@Order(1)
-//@WebFilter(urlPatterns = ["/transform/*"])
+@Order(2)
+@WebFilter(urlPatterns = ["/transform?*"])
 class AuthFilter : Filter {
     private val logger: Logger = LoggerFactory.getLogger(AuthFilter::class.java)
 
@@ -27,7 +27,7 @@ class AuthFilter : Filter {
 
         logger.info("Checking API KEY for req : {}", req.requestURI)
 
-        if(apiKey.isNullOrEmpty()) {
+        if(req.requestURI == TRANSFORM_URI && apiKey.isNullOrEmpty()) {
             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid API_KEY header" )
             return
         }
@@ -39,5 +39,6 @@ class AuthFilter : Filter {
 
     companion object {
         const val KEY = "API_KEY"
+        const val TRANSFORM_URI = "/transform"
     }
 }
