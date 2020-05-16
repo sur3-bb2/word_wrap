@@ -38,6 +38,10 @@ tasks.withType<KotlinCompile> {
 	}
 }
 
+tasks.bootJar {
+	archiveFileName.set("app.jar")
+}
+
 jacoco {
 	toolVersion = "0.8.5"
 	reportsDir = file("$buildDir/customJacocoReportDir")

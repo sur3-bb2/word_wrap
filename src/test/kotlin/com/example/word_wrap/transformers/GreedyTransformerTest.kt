@@ -8,13 +8,35 @@ internal class GreedyTransformerShould {
     @Test
     fun transformSuccessfully() {
         val classUnderTest = GreedyTransformer()
-        val input = "aaa bb cc ddddd"
+        val input = "   aaa bb cc ddddd"
+        val maxWidth = 6
+        val actual = classUnderTest.transform(input, maxWidth)
+
+        assertNotNull(actual.output)
+        assertEquals(actual.output,"   aaa\n bb cc\n ddddd")
+    }
+
+    @Test
+    fun transformOneWordInput() {
+        val classUnderTest = GreedyTransformer()
+        val input = "aaaaaaaaabb"
+        val maxWidth = 6
+        val actual = classUnderTest.transform(input, maxWidth)
+
+        assertNotNull(actual.output)
+        assertEquals(actual.output,"aaaaaaaaabb")
+    }
+
+    @Test
+    fun transformSecondInput() {
+        val classUnderTest = GreedyTransformer()
+        val input = "  aaa dddddsdsdsdsdsdds"
         val maxWidth = 6
 
         val actual = classUnderTest.transform(input, maxWidth)
 
         assertNotNull(actual.output)
-        assertTrue(actual.output == "aaa bb\ncc\nddddd")
+        assertTrue(actual.output == "  aaa \ndddddsdsdsdsdsdds")
     }
 
     @Test
@@ -26,6 +48,6 @@ internal class GreedyTransformerShould {
         val actual = classUnderTest.transform(input, maxWidth)
 
         assertNotNull(actual.output)
-        assertTrue(actual.output == "Design a word wrap\nmicro service which\nprovides functionality\nto take an input string\nand wraps it so that\nnone of the lines are\nlonger than the max\nlength. The lines\nshould not break any\nword in the middle.")
+        assertEquals(actual.output, "Design a word wrap \nmicro service which \nprovides functionality \nto take an input string \nand wraps it so that \nnone of the lines are \nlonger than the max \nlength. The lines \nshould not break any \nword in the middle.")
     }
 }
